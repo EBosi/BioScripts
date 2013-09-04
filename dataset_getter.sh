@@ -7,6 +7,7 @@ genus=$1
 out_dir=$2
 
 cd $out_dir
+num=0
 curl ftp://ftp.ncbi.nih.gov/genomes/Bacteria_DRAFT/ -l -s | grep $genus > 'tmp'
 for l in $(cat 'tmp');
 do
@@ -17,10 +18,11 @@ do
 	file_="ftp://ftp.ncbi.nih.gov/genomes/Bacteria_DRAFT/$l/$file_";
 	wget $file_;
 	cd .. ;
+	num=$num+1
 done
 
 rm 'tmp'
-echo -e "\e[00;31mtask done\e[00m"
+echo -e "\e[00;31mtask done!\ntotal genome retrieved: $num\e[00m"
 
 # you may want to extract all... just like that
 # for f in $(ls | grep "Pseudo"); do cd $f; f2=$(ls); echo $f2; tar -zxvf $f2; cd ..; done
