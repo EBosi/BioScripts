@@ -8,8 +8,8 @@ out_dir=$2
 
 cd $out_dir
 num=0
-curl ftp://ftp.ncbi.nih.gov/genomes/Bacteria_DRAFT/ -l -s | grep $genus > 'tmp'
-for l in $(cat 'tmp');
+drafts=`curl ftp://ftp.ncbi.nih.gov/genomes/Bacteria_DRAFT/ -l -s | grep $genus`
+for l in $drafts;
 do
 	file_=''
 	mkdir $l;
@@ -18,10 +18,9 @@ do
 	file_="ftp://ftp.ncbi.nih.gov/genomes/Bacteria_DRAFT/$l/$file_";
 	wget $file_;
 	cd .. ;
-	num=$num+1
+	num=`expr $num + 1`
 done
 
-rm 'tmp'
 echo -e "\e[00;31mtask done!\ntotal genome retrieved: $num\e[00m"
 
 # you may want to extract all... just like that
